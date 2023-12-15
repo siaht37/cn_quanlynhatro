@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quanlynhatro.doanchuyennganh.entity.compositekey.ChiTietPhieuThueTienIchId;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(ChiTietPhieuThueTienIchId.class)
 public class ChiTietPhieuThueTienIch {
     @Id
     @ManyToOne

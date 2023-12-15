@@ -1,12 +1,11 @@
 package quanlynhatro.doanchuyennganh.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quanlynhatro.doanchuyennganh.entity.compositekey.SoDienId;
+import quanlynhatro.doanchuyennganh.entity.compositekey.SoNuocId;
 
 import java.util.Date;
 
@@ -14,6 +13,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IdClass(SoNuocId.class)
 public class SoNuoc {
     @Id
     private Date ngayNhap;

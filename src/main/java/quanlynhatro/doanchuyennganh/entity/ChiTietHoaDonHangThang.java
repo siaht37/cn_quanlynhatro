@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import quanlynhatro.doanchuyennganh.entity.compositekey.ChiTietHoaDonHangThangId;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Chi_Tiet_Hoa_Don_Hang_Thang")
+@IdClass(ChiTietHoaDonHangThangId.class)
 public class ChiTietHoaDonHangThang {
     @Id
     @ManyToOne
