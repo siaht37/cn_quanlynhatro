@@ -1,36 +1,33 @@
 package quanlynhatro.doanchuyennganh.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import quanlynhatro.doanchuyennganh.entity.Phong;
+import quanlynhatro.doanchuyennganh.repository.IPhongRepository;
 
 import java.util.List;
-
+@Service
 public class PhongService implements IService<Phong> {
 
+    @Autowired
+    IPhongRepository phongRepository;
+
+
     @Override
-    public List<Phong> getAllPhong() {
-        return null;
+    public List<Phong> getAll() {
+        return phongRepository.findAll();
+    }
+
+    //chỉ admin
+    @Override
+    public Phong insert(Phong phong) {
+        return phongRepository.save(phong);
     }
 
     @Override
-    public Phong insert() {
-        return null;
+    public Phong update(Phong phong) {
+        return phongRepository.save(phong);
     }
 
-    @Override
-    public void delete() {
 
-    }
-
-    @Override
-    public Phong getById() {
-        return null;
-    }
-
-    @Override
-    public Phong update() {
-
-
-
-        return null;
-    }
 }

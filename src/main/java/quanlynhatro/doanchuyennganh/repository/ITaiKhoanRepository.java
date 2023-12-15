@@ -2,7 +2,7 @@ package quanlynhatro.doanchuyennganh.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import quanlynhatro.doanchuyennganh.entity.Phong;
+import quanlynhatro.doanchuyennganh.entity.TaiKhoan;
 @Repository
-public interface IPhongRepository extends JpaRepository<Phong, Integer> {
+public interface ITaiKhoanRepository extends JpaRepository<TaiKhoan, String> {
 }

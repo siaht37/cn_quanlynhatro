@@ -1,10 +1,7 @@
 package quanlynhatro.doanchuyennganh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.entity.LoaiPhong;
 import quanlynhatro.doanchuyennganh.service.LoaiPhongService;
 
@@ -15,14 +12,14 @@ import java.util.List;
 @RequestMapping("/LoaiPhong")
 public class LoaiPhongController implements IController<LoaiPhong>{
     @Autowired
-    private LoaiPhongService phongService;
+    private LoaiPhongService loaiPhongService;
 
     @Override
     @GetMapping("/")
-    public List<LoaiPhong> getAllPhong() {
+    public List<LoaiPhong> getAll() {
 
         try {
-            List<LoaiPhong> loaiPhongs = phongService.getAllPhong();
+            List<LoaiPhong> loaiPhongs = loaiPhongService.getAll();
             return loaiPhongs;
         }catch (Exception e){
             System.err.println(e.toString());
@@ -31,24 +28,18 @@ public class LoaiPhongController implements IController<LoaiPhong>{
 
     }
 
+    //chỉ admin
+    @PostMapping("/")
     @Override
-    public LoaiPhong insert() {
-        return null;
+    public LoaiPhong insert(LoaiPhong loaiPhong) {
+        return loaiPhongService.insert(loaiPhong);
     }
 
+    //chỉ admin
+    @PutMapping("/")
     @Override
-    public void delete() {
-
-    }
-
-    @Override
-    public LoaiPhong getById() {
-        return null;
-    }
-
-    @Override
-    public LoaiPhong update() {
-        return null;
+    public LoaiPhong update(LoaiPhong loaiPhong) {
+        return loaiPhongService.insert(loaiPhong);
     }
 
 

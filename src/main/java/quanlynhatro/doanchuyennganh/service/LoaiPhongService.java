@@ -9,34 +9,26 @@ import java.util.List;
 @Service
 public class LoaiPhongService implements IService<LoaiPhong> {
     @Autowired
-    private ILoaiPhongRepository phongRepository;
+    private ILoaiPhongRepository loaiPhongRepository;
 
     @Override
-    public List<LoaiPhong> getAllPhong() {
+    public List<LoaiPhong> getAll() {
 
-        List<LoaiPhong> phongs = phongRepository.findAll();
+        List<LoaiPhong> loaiPhongs = loaiPhongRepository.findAll();
 
-        return phongs;
+        return loaiPhongs;
     }
 
+    //chỉ admin
     @Override
-    public LoaiPhong insert() {
-        return null;
+    public LoaiPhong insert(LoaiPhong loaiPhong) {
+        return loaiPhongRepository.save(loaiPhong);
     }
 
+    //chỉ admin
     @Override
-    public void delete() {
-
-    }
-
-    @Override
-    public LoaiPhong getById() {
-        return null;
-    }
-
-    @Override
-    public LoaiPhong update() {
-        return null;
+    public LoaiPhong update(LoaiPhong loaiPhong) {
+        return loaiPhongRepository.save(loaiPhong);
     }
 
 

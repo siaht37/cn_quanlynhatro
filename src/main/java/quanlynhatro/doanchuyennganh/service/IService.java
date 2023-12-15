@@ -4,11 +4,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface IService<S> {
-    public List<S> getAllPhong();
+    public List<S> getAll();
 
-    public S insert();
-    public void delete();
-    public S getById();
-    public S update();
+    public S insert(S s);
+
+    public S update(S s);
 
 }
