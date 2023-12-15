@@ -7,7 +7,7 @@ import quanlynhatro.doanchuyennganh.repository.ILoaiPhongRepository;
 
 import java.util.List;
 @Service
-public class LoaiPhongService implements ILoaiService<LoaiPhong> {
+public class LoaiPhongService implements IService<LoaiPhong> {
     @Autowired
     private ILoaiPhongRepository phongRepository;
 
@@ -15,6 +15,7 @@ public class LoaiPhongService implements ILoaiService<LoaiPhong> {
     public List<LoaiPhong> getAllPhong() {
 
         List<LoaiPhong> phongs = phongRepository.findAll();
+
         return phongs;
     }
 

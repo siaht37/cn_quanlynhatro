@@ -1,11 +1,13 @@
 package quanlynhatro.doanchuyennganh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -23,8 +25,10 @@ public class TaiKhoan {
     private String password;
 
     @OneToMany(mappedBy = "taiKhoan")
-    List<HopDongThuePhong> hopDongThuePhongs;
+    @JsonBackReference
+    Set<HopDongThuePhong> hopDongThuePhongs;
 
     @OneToMany(mappedBy = "taiKhoan")
-    List<HoaDonHangThang> hoaDonHangThangs;
+    @JsonBackReference
+    Set<HoaDonHangThang> hoaDonHangThangs;
 }

@@ -1,5 +1,6 @@
 package quanlynhatro.doanchuyennganh.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,8 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoaiPhong {
@@ -27,4 +27,7 @@ public class LoaiPhong {
 
 
     private String hinh;
+    @OneToMany(mappedBy = "loaiPhong")
+    @JsonBackReference
+    private Set<Phong> phongs;
 }

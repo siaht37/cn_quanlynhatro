@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Chi_Tiet_Hoa_Don_DenBu")
 public class ChiTietHoaDonDenBu {
     @Id
     @ManyToOne
