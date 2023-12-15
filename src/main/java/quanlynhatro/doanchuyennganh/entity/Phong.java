@@ -1,14 +1,15 @@
 package quanlynhatro.doanchuyennganh.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Phong {
@@ -17,14 +18,16 @@ public class Phong {
     private int maPhong;
 
     @ManyToOne
-    @JoinColumn(name = "maLoaiPhongF")
+    @JoinColumn(name = "maLoaiPhongF", referencedColumnName = "maLoaiPhong")
     private LoaiPhong loaiPhong;
 
+
     private int tang;
+
     private String tinhTrang;
 
     private boolean conTrong;
 
     @OneToMany(mappedBy = "phong")
-    List<HopDongThuePhong> hopDongThuePhongs;
+    Set<HopDongThuePhong> hopDongThuePhongs = new HashSet<>();
 }

@@ -1,14 +1,15 @@
 package quanlynhatro.doanchuyennganh.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoaiPhong {
@@ -21,10 +22,9 @@ public class LoaiPhong {
     private int dienTich;
 
     private double gia;
+
     private int soLuong;
 
-    private String hinh;
 
-    @OneToMany(mappedBy = "loaiPhong")
-    private List<Phong> phongs;
+    private String hinh;
 }
