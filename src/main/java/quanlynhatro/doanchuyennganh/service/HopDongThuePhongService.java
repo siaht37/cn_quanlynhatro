@@ -14,7 +14,7 @@ public class HopDongThuePhongService implements IService<HopDongThuePhong>{
 
     @Override
     public List<HopDongThuePhong> getAll() {
-        return hopDongThuePhongRepository.findBy();
+        return hopDongThuePhongRepository.findAll();
     }
 
     @Override
