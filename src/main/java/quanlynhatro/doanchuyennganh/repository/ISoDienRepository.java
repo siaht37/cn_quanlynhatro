@@ -8,5 +8,5 @@ import quanlynhatro.doanchuyennganh.entity.SoNuoc;
 import java.util.Date;
 
 //@Repository
-public interface ISoDienRepository  extends JpaRepository <SoNuoc, Integer>{
+public interface ISoDienRepository  {
 }
