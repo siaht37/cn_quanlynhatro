@@ -8,9 +8,9 @@ import quanlynhatro.doanchuyennganh.repository.IHopDongThuePhongRepository;
 import java.util.List;
 
 @Service
-public class HopDongThuePhongService implements IService<HopDongThuePhong>{
+public class HopDongThuePhongService implements IService<HopDongThuePhong> {
     @Autowired
-    IHopDongThuePhongRepository hopDongThuePhongRepository;
+    private IHopDongThuePhongRepository hopDongThuePhongRepository;
 
     @Override
     public List<HopDongThuePhong> getAll() {

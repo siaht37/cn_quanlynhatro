@@ -6,11 +6,12 @@ import quanlynhatro.doanchuyennganh.entity.Phong;
 import quanlynhatro.doanchuyennganh.repository.IPhongRepository;
 
 import java.util.List;
+
 @Service
 public class PhongService implements IService<Phong> {
 
     @Autowired
-    IPhongRepository phongRepository;
+    private IPhongRepository phongRepository;
 
 
     @Override

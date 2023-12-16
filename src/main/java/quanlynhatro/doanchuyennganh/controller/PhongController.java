@@ -6,11 +6,13 @@ import quanlynhatro.doanchuyennganh.entity.Phong;
 import quanlynhatro.doanchuyennganh.service.PhongService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/Phong")
 public class PhongController implements IController<Phong> {
     @Autowired
-    PhongService phongService;
+    private PhongService phongService;
+
     @Override
     @GetMapping("/")
     public List<Phong> getAll() {

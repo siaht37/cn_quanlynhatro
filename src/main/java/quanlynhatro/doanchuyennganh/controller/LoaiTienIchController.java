@@ -6,11 +6,13 @@ import quanlynhatro.doanchuyennganh.entity.LoaiTienIch;
 import quanlynhatro.doanchuyennganh.service.LoaiTienIchService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/LoaiTienIch")
-public class LoaiTienIchController implements IController<LoaiTienIch>{
+public class LoaiTienIchController implements IController<LoaiTienIch> {
     @Autowired
-    LoaiTienIchService loaiTienIchService;
+    private LoaiTienIchService loaiTienIchService;
+
     @Override
     @GetMapping("/")
     public List<LoaiTienIch> getAll() {

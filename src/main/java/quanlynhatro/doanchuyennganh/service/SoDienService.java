@@ -6,10 +6,12 @@ import quanlynhatro.doanchuyennganh.entity.SoDien;
 import quanlynhatro.doanchuyennganh.repository.ISoDienRepository;
 
 import java.util.List;
+
 @Service
 public class SoDienService implements IService<SoDien> {
     @Autowired
-    ISoDienRepository soDienRepository;
+    private ISoDienRepository soDienRepository;
+
     @Override
     public List<SoDien> getAll() {
         return soDienRepository.findAll();

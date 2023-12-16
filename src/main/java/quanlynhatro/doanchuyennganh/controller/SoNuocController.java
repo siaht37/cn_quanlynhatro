@@ -6,11 +6,13 @@ import quanlynhatro.doanchuyennganh.entity.SoNuoc;
 import quanlynhatro.doanchuyennganh.service.SoNuocService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/SoNuoc")
-public class SoNuocController implements IController<SoNuoc>{
+public class SoNuocController implements IController<SoNuoc> {
     @Autowired
-    SoNuocService soNuocService;
+    private SoNuocService soNuocService;
+
     @Override
     @GetMapping("/")
     public List<SoNuoc> getAll() {

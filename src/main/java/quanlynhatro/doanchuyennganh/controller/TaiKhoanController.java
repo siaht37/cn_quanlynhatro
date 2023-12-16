@@ -9,9 +9,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/TaiKhoan")
-public class TaiKhoanController implements IController<TaiKhoan>{
+public class TaiKhoanController implements IController<TaiKhoan> {
     @Autowired
-    TaiKhoanService taiKhoanService;
+    private TaiKhoanService taiKhoanService;
 
     @Override
     @GetMapping("/")

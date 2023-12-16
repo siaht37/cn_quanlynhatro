@@ -6,10 +6,12 @@ import quanlynhatro.doanchuyennganh.entity.LoaiTienIch;
 import quanlynhatro.doanchuyennganh.repository.ILoaiTienIchRepository;
 
 import java.util.List;
+
 @Service
-public class LoaiTienIchService implements IService<LoaiTienIch>{
+public class LoaiTienIchService implements IService<LoaiTienIch> {
     @Autowired
-    ILoaiTienIchRepository loaiTienIchRepository;
+    private ILoaiTienIchRepository loaiTienIchRepository;
+
     @Override
     public List<LoaiTienIch> getAll() {
         return loaiTienIchRepository.findAll();

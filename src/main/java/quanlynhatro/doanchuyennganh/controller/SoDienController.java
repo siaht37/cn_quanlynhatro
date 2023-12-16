@@ -6,11 +6,13 @@ import quanlynhatro.doanchuyennganh.entity.SoDien;
 import quanlynhatro.doanchuyennganh.service.SoDienService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/SoDien")
-public class SoDienController implements IController<SoDien>{
+public class SoDienController implements IController<SoDien> {
     @Autowired
-    SoDienService soDienService;
+    private SoDienService soDienService;
+
     @Override
     @GetMapping("/")
     public List<SoDien> getAll() {

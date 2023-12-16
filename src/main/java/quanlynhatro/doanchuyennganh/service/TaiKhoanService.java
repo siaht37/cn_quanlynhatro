@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class TaiKhoanService implements IService<TaiKhoan> {
     @Autowired
-    ITaiKhoanRepository taiKhoanRepository;
+    private ITaiKhoanRepository taiKhoanRepository;
 
     @Override
     public List<TaiKhoan> getAll() {
@@ -22,7 +22,7 @@ public class TaiKhoanService implements IService<TaiKhoan> {
     @Override
     public TaiKhoan insert(TaiKhoan taiKhoan) {
         Optional<TaiKhoan> optional = taiKhoanRepository.findById(taiKhoan.getUserName());
-        if(optional.isEmpty())
+        if (optional.isEmpty())
             return taiKhoanRepository.save(taiKhoan);
         else
             return null;

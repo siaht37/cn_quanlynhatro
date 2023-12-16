@@ -6,11 +6,13 @@ import quanlynhatro.doanchuyennganh.entity.HopDongThuePhong;
 import quanlynhatro.doanchuyennganh.service.HopDongThuePhongService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/")
-public class HopDongThuePhongController implements IController<HopDongThuePhong>{
+public class HopDongThuePhongController implements IController<HopDongThuePhong> {
     @Autowired
-    HopDongThuePhongService hopDongThuePhongService;
+    private HopDongThuePhongService hopDongThuePhongService;
+
     @Override
     @GetMapping("/")
     public List<HopDongThuePhong> getAll() {

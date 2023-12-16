@@ -2,10 +2,11 @@ package quanlynhatro.doanchuyennganh.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import quanlynhatro.doanchuyennganh.dto.LoaiPhongDTO;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,4 +31,14 @@ public class LoaiPhong {
     @OneToMany(mappedBy = "loaiPhong")
     @JsonBackReference
     private Set<Phong> phongs;
+
+    private LoaiPhongDTO toDto() {
+        return LoaiPhongDTO.builder()
+                .maLoaiPhong(maLoaiPhong)
+                .tenLoaiPhong(tenLoaiPhong)
+                .dienTich(dienTich)
+                .gia(gia)
+                .soLuong(soLuong)
+                .build();
+    }
 }

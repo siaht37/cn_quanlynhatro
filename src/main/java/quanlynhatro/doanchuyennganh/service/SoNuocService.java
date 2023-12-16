@@ -6,10 +6,12 @@ import quanlynhatro.doanchuyennganh.entity.SoNuoc;
 import quanlynhatro.doanchuyennganh.repository.ISoNuocRepository;
 
 import java.util.List;
+
 @Service
-public class SoNuocService implements IService<SoNuoc>{
+public class SoNuocService implements IService<SoNuoc> {
     @Autowired
-    ISoNuocRepository soNuocRepository;
+    private ISoNuocRepository soNuocRepository;
+
     @Override
     public List<SoNuoc> getAll() {
         return soNuocRepository.findAll();

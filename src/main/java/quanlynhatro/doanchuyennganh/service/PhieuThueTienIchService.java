@@ -6,21 +6,22 @@ import quanlynhatro.doanchuyennganh.entity.ChiTietPhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.entity.PhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.entity.TaiKhoan;
 import quanlynhatro.doanchuyennganh.entity.TienIch;
+import quanlynhatro.doanchuyennganh.entity.compositekey.ChiTietPhieuThueTienIchId;
 import quanlynhatro.doanchuyennganh.repository.IChiTietPhieuThueTienIchRepository;
 import quanlynhatro.doanchuyennganh.repository.IPhieuThueTienIchRepository;
 import quanlynhatro.doanchuyennganh.repository.ITaiKhoanRepository;
 import quanlynhatro.doanchuyennganh.repository.ITienIchRepository;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 @Service
-public class PhieuThueTienIchService implements IService<PhieuThueTienIch>{
+public class PhieuThueTienIchService implements IService<PhieuThueTienIch> {
 
     @Autowired
-   private  IPhieuThueTienIchRepository phieuThueTienIchRepository;
+    private IPhieuThueTienIchRepository phieuThueTienIchRepository;
     @Autowired
     private IChiTietPhieuThueTienIchRepository chiTietPhieuThueTienIchRepository;
 
@@ -39,31 +40,60 @@ public class PhieuThueTienIchService implements IService<PhieuThueTienIch>{
         return null;
     }
 
-    public ChiTietPhieuThueTienIch insert(String username,List<TienIch> tienIches){
+    public List<ChiTietPhieuThueTienIch> insert(String username, List<Integer> maTienIches) {
         //
-        Optional<TaiKhoan> taiKhoan =taiKhoanRepository.findByUserName(username);
-        if(taiKhoan.isEmpty()){
+        Optional<TaiKhoan> taiKhoan = taiKhoanRepository.findByUserName(username);
+        List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = new ArrayList<>();
+        if (taiKhoan.isEmpty()) {
             return null;
-        }else{
-            PhieuThueTienIch phieuThueTienIchSaved = new PhieuThueTienIch();
-            phieuThueTienIchSaved.setTaiKhoan(taiKhoan.get());
-            phieuThueTienIchSaved.setNgayLap(new Date());
-            PhieuThueTienIch phieuThueTienIch = phieuThueTienIchRepository.save(phieuThueTienIchSaved);
-            for (TienIch tienIch:tienIches) {
-                ChiTietPhieuThueTienIch chiTietPhieuThueTienIch = new ChiTietPhieuThueTienIch();
-                chiTietPhieuThueTienIch.setTinhTrang(tienIch.getTinhTrang());
-                chiTietPhieuThueTienIch.setPhieuThueTienIch(phieuThueTienIchSaved);
-                chiTietPhieuThueTienIch.setTienIch(tienIch);
-                return chiTietPhieuThueTienIchRepository.save(chiTietPhieuThueTienIch);
-            }
+        }
+        List<TienIch> mulTienIch = tienIchRepository.findAllById(maTienIches);
 
+        PhieuThueTienIch phieuThueTienIchSaved = PhieuThueTienIch.builder()
+                .taiKhoan(taiKhoan.get())
+                .ngayLap(new Date())
+                .build();
+        phieuThueTienIchRepository.save(phieuThueTienIchSaved);
+
+        for (TienIch tienIch : mulTienIch) {
+            ChiTietPhieuThueTienIch chiTietPhieuThueTienIch = ChiTietPhieuThueTienIch.builder()
+                    .tinhTrang(tienIch.getTinhTrang())
+                    .phieuThueTienIch(phieuThueTienIchSaved)
+                    .tienIch(tienIch)
+                    .build();
+
+            chiTietPhieuThueTienIches.add(chiTietPhieuThueTienIch);
         }
 
-        return null;
+        return chiTietPhieuThueTienIchRepository.saveAll(chiTietPhieuThueTienIches);
     }
 
     @Override
     public PhieuThueTienIch update(PhieuThueTienIch phieuThueTienIch) {
         return null;
+    }
+
+    public List<ChiTietPhieuThueTienIch> update(Integer maPhieuThue, List<Integer> maTienIches) {
+        PhieuThueTienIch phieuThueTienIch = phieuThueTienIchRepository.findById(maPhieuThue).get();
+        List<TienIch> mulTienIch = tienIchRepository.findAllById(maTienIches);
+        List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = phieuThueTienIch.getChiTietPhieuThueTienIches().stream().toList();
+
+        ArrayList<ChiTietPhieuThueTienIchId> chiTietPhieuThueTienIchIds = new ArrayList<>();
+
+        for (ChiTietPhieuThueTienIch chiTietPhieuThueTienIch : chiTietPhieuThueTienIches) {
+            ChiTietPhieuThueTienIchId chiTietPhieuThueTienIchId = new ChiTietPhieuThueTienIchId(phieuThueTienIch, chiTietPhieuThueTienIch.getTienIch());
+            chiTietPhieuThueTienIchIds.add(chiTietPhieuThueTienIchId);
+        }
+        chiTietPhieuThueTienIchRepository.deleteAllById(chiTietPhieuThueTienIchIds);
+
+        for (TienIch tienIch : mulTienIch) {
+            ChiTietPhieuThueTienIch chiTietPhieuThueTienIch = ChiTietPhieuThueTienIch.builder()
+                    .tinhTrang(tienIch.getTinhTrang())
+                    .phieuThueTienIch(phieuThueTienIch)
+                    .tienIch(tienIch)
+                    .build();
+            chiTietPhieuThueTienIches.add(chiTietPhieuThueTienIch);
+        }
+        return chiTietPhieuThueTienIches;
     }
 }

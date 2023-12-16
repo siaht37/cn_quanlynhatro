@@ -6,11 +6,13 @@ import quanlynhatro.doanchuyennganh.entity.TienIch;
 import quanlynhatro.doanchuyennganh.service.TienIchService;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/TienIch")
 public class TienIchController implements IController<TienIch> {
     @Autowired
-    TienIchService tienIchService;
+    private TienIchService tienIchService;
+
     @Override
     @GetMapping("/")
     public List<TienIch> getAll() {

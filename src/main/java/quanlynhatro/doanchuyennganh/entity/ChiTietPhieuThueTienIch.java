@@ -3,6 +3,7 @@ package quanlynhatro.doanchuyennganh.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import quanlynhatro.doanchuyennganh.entity.compositekey.ChiTietPhieuThueTienIchId;
@@ -15,6 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @IdClass(ChiTietPhieuThueTienIchId.class)
+@Builder
 public class ChiTietPhieuThueTienIch {
     @Id
     @ManyToOne
