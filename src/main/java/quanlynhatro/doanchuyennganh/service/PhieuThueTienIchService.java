@@ -2,11 +2,11 @@ package quanlynhatro.doanchuyennganh.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import quanlynhatro.doanchuyennganh.entity.ChiTietPhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.entity.PhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.entity.TaiKhoan;
 import quanlynhatro.doanchuyennganh.entity.TienIch;
-import quanlynhatro.doanchuyennganh.entity.compositekey.ChiTietPhieuThueTienIchId;
 import quanlynhatro.doanchuyennganh.repository.IChiTietPhieuThueTienIchRepository;
 import quanlynhatro.doanchuyennganh.repository.IPhieuThueTienIchRepository;
 import quanlynhatro.doanchuyennganh.repository.ITaiKhoanRepository;
@@ -47,7 +47,7 @@ public class PhieuThueTienIchService implements IService<PhieuThueTienIch> {
         if (taiKhoan.isEmpty()) {
             return null;
         }
-        List<TienIch> mulTienIch = tienIchRepository.findAllById(maTienIches);
+        List<TienIch> tienIches = tienIchRepository.findAllById(maTienIches);
 
         PhieuThueTienIch phieuThueTienIchSaved = PhieuThueTienIch.builder()
                 .taiKhoan(taiKhoan.get())
@@ -55,7 +55,7 @@ public class PhieuThueTienIchService implements IService<PhieuThueTienIch> {
                 .build();
         phieuThueTienIchRepository.save(phieuThueTienIchSaved);
 
-        for (TienIch tienIch : mulTienIch) {
+        for (TienIch tienIch : tienIches) {
             ChiTietPhieuThueTienIch chiTietPhieuThueTienIch = ChiTietPhieuThueTienIch.builder()
                     .tinhTrang(tienIch.getTinhTrang())
                     .phieuThueTienIch(phieuThueTienIchSaved)
@@ -73,27 +73,24 @@ public class PhieuThueTienIchService implements IService<PhieuThueTienIch> {
         return null;
     }
 
-    public List<ChiTietPhieuThueTienIch> update(Integer maPhieuThue, List<Integer> maTienIches) {
-        PhieuThueTienIch phieuThueTienIch = phieuThueTienIchRepository.findById(maPhieuThue).get();
-        List<TienIch> mulTienIch = tienIchRepository.findAllById(maTienIches);
-        List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = phieuThueTienIch.getChiTietPhieuThueTienIches().stream().toList();
 
-        ArrayList<ChiTietPhieuThueTienIchId> chiTietPhieuThueTienIchIds = new ArrayList<>();
+    @Transactional
+    public List<ChiTietPhieuThueTienIch> update(int maPhieuThue, List<Integer> maTienIches) {
+        PhieuThueTienIch phieuThueTienIch = phieuThueTienIchRepository.findById(maPhieuThue).orElseThrow();
 
-        for (ChiTietPhieuThueTienIch chiTietPhieuThueTienIch : chiTietPhieuThueTienIches) {
-            ChiTietPhieuThueTienIchId chiTietPhieuThueTienIchId = new ChiTietPhieuThueTienIchId(phieuThueTienIch, chiTietPhieuThueTienIch.getTienIch());
-            chiTietPhieuThueTienIchIds.add(chiTietPhieuThueTienIchId);
-        }
-        chiTietPhieuThueTienIchRepository.deleteAllById(chiTietPhieuThueTienIchIds);
-
-        for (TienIch tienIch : mulTienIch) {
+        chiTietPhieuThueTienIchRepository.deleteByPhieuThueTienIch(phieuThueTienIch);
+        List<TienIch> tienIches = tienIchRepository.findAllById(maTienIches);
+        List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = new ArrayList<>();
+        for (TienIch tienIch : tienIches) {
             ChiTietPhieuThueTienIch chiTietPhieuThueTienIch = ChiTietPhieuThueTienIch.builder()
                     .tinhTrang(tienIch.getTinhTrang())
                     .phieuThueTienIch(phieuThueTienIch)
                     .tienIch(tienIch)
                     .build();
+
             chiTietPhieuThueTienIches.add(chiTietPhieuThueTienIch);
         }
-        return chiTietPhieuThueTienIches;
+
+        return chiTietPhieuThueTienIchRepository.saveAll(chiTietPhieuThueTienIches);
     }
 }

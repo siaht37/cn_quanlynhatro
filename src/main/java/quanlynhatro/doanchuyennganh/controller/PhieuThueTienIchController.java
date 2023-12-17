@@ -2,7 +2,7 @@ package quanlynhatro.doanchuyennganh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import quanlynhatro.doanchuyennganh.dto.PhieuThueTienIchInsertDTO;
+import quanlynhatro.doanchuyennganh.dto.request.PhieuThueTienIchRequestDTO;
 import quanlynhatro.doanchuyennganh.entity.ChiTietPhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.entity.PhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.service.PhieuThueTienIchService;
@@ -27,8 +27,8 @@ public class PhieuThueTienIchController implements IController<PhieuThueTienIch>
     }
 
     @PostMapping(value = "/")
-    public List<ChiTietPhieuThueTienIch> insert(@RequestBody PhieuThueTienIchInsertDTO chiTietPhieuThueTienIchInsertDTO) {
-        return phieuThueTienIchService.insert(chiTietPhieuThueTienIchInsertDTO.username, chiTietPhieuThueTienIchInsertDTO.tienIches);
+    public List<ChiTietPhieuThueTienIch> insert(@RequestBody PhieuThueTienIchRequestDTO chiTietPhieuThueTienIchInsertDTO) {
+        return phieuThueTienIchService.insert(chiTietPhieuThueTienIchInsertDTO.getUsername(), chiTietPhieuThueTienIchInsertDTO.getMaTienIches());
     }
 
     // JWT
@@ -38,7 +38,7 @@ public class PhieuThueTienIchController implements IController<PhieuThueTienIch>
     }
 
     @PutMapping("/")
-    public List<ChiTietPhieuThueTienIch> update(Integer maPhieuThue, List<Integer> maTienIches) {
-        return phieuThueTienIchService.update(maPhieuThue, maTienIches);
+    public List<ChiTietPhieuThueTienIch> update(@RequestBody PhieuThueTienIchRequestDTO phieuThueTienIchRequestDTO) {
+        return phieuThueTienIchService.update(phieuThueTienIchRequestDTO.getMaPhieuThue(), phieuThueTienIchRequestDTO.getMaTienIches());
     }
 }
