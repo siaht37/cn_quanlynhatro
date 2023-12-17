@@ -2,10 +2,13 @@ package quanlynhatro.doanchuyennganh.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import quanlynhatro.doanchuyennganh.entity.HoaDonHangThang;
-import quanlynhatro.doanchuyennganh.entity.TaiKhoan;
+import org.springframework.transaction.annotation.Transactional;
+import quanlynhatro.doanchuyennganh.dto.response.HoaDonHangThangResponseDTO;
+import quanlynhatro.doanchuyennganh.entity.*;
 import quanlynhatro.doanchuyennganh.repository.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,8 @@ public class HoaDonHangThangService implements IService<HoaDonHangThang> {
     private IHopDongThuePhongRepository hopDongThuePhongRepository;
     @Autowired
     private ITaiKhoanRepository taiKhoanRepository;
+    @Autowired
+    private IPhieuThueTienIchRepository phieuThueTienIchRepository;
 
     @Override
     public List<HoaDonHangThang> getAll() {
@@ -34,6 +39,11 @@ public class HoaDonHangThangService implements IService<HoaDonHangThang> {
     public List<HoaDonHangThang> getByTaiKhoan(String usename) {
         Optional<TaiKhoan> taiKhoan = taiKhoanRepository.findByUserName(usename);
         return hoaDonHangThangRepository.findByTaiKhoan(taiKhoan.get());
+    }
+
+    public List<HoaDonHangThang> getByTaiKhoanAndStateIsFalse(String usename) {
+        Optional<TaiKhoan> taiKhoan = taiKhoanRepository.findByUserName(usename);
+        return hoaDonHangThangRepository.findByTaiKhoanAndTAndTrangThaiThanhToanIsFalse(taiKhoan.get());
     }
 
     @Override
@@ -46,19 +56,56 @@ public class HoaDonHangThangService implements IService<HoaDonHangThang> {
         return null;
     }
 
+    @Transactional
+    public List<HoaDonHangThangResponseDTO> createHoaDonsByMonthYear(Integer month, Integer year) {
+        List<HoaDonHangThangResponseDTO> hoaDonHangThangResponseDTOS = new ArrayList<>();
+        List<Phong> phongs = phongRepository.findByConTrongIsFalse();
 
-//    public List<HoaDonHangThangResponseDTO> insertHoaDonsTheoThang(int month) {
-//        List<HoaDonHangThangResponseDTO> hoaDonHangThangResponseDTOS = new ArrayList<>();
-//        List<Phong> phongs = phongRepository.findByConTrongIsFalse();
-//
-//        for (Phong phong : phongs) {
-//            HoaDonHangThangResponseDTO hoaDonHangThangResponseDTO = HoaDonHangThangResponseDTO.builder()
-//                    .hoaDonHangThang(hoaDonHangThangRepository.findByHopDongThuePhong(hopDongThuePhongRepository.findByPhong(phong)))
-//                    .build();
-//
-//
-//        }
-//
-//        return hoaDonHangThangResponseDTOS;
-//    }
+        for (Phong phong : phongs) {
+            //hop dong cua phong dang thue
+            HopDongThuePhong hopDongThuePhong = hopDongThuePhongRepository.findByPhong(phong);
+            //tai khoan thue hop dong
+            TaiKhoan taiKhoan = hopDongThuePhong.getTaiKhoan();
+
+            //gan so dien cua phong theo thang
+            SoDien soDien = soDienRepository.findSoDienByPhongMonthYear(phong, month, year);
+            //gan so nuoc cua phong theo thang
+            SoNuoc soNuoc = soNuocRepository.findSoNuocByPhongMonthYear(phong, month, year);
+
+            //ds tien ich(chitiettienich) taikhoan dang thue
+            List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = new ArrayList<>();
+            List<PhieuThueTienIch> phieuThueTienIches = phieuThueTienIchRepository.findByTaiKhoan(taiKhoan);
+            for (PhieuThueTienIch phieuThueTienIch : phieuThueTienIches) {
+                chiTietPhieuThueTienIches.addAll(chiTietPhieuThueTienIchRepository.findByPhieuThueTienIch(phieuThueTienIch));
+            }
+            double sumTienThueTienIch = 0;
+            for (ChiTietPhieuThueTienIch chiTietPhieuThueTienIch : chiTietPhieuThueTienIches) {
+                sumTienThueTienIch += chiTietPhieuThueTienIch.getTienIch().getGia();
+            }
+
+            //tao hoa don cua hop dong của phong
+            HoaDonHangThang hoaDonHangThang = HoaDonHangThang.builder()
+                    .hopDongThuePhong(hopDongThuePhong)
+                    .taiKhoan(taiKhoan)
+                    .ngayLap(new Date())
+                    .trangThaiThanhToan(false)
+                    .soTien(phong.getLoaiPhong().getGia()
+                            + soDien.getSo() * soDien.getDonGia()
+                            + soNuoc.getSo() * soNuoc.getDonGia()
+                            + sumTienThueTienIch)
+                    .build();
+            HoaDonHangThangResponseDTO hoaDonHangThangResponseDTO = HoaDonHangThangResponseDTO.builder()
+                    .hoaDonHangThang(hoaDonHangThang)
+                    .soDien(soDien)
+                    .soNuoc(soNuoc)
+                    .chiTietPhieuThueTienIches(chiTietPhieuThueTienIches)
+                    .build();
+            hoaDonHangThangRepository.save(hoaDonHangThang);
+            hoaDonHangThangResponseDTOS.add(hoaDonHangThangResponseDTO);
+        }
+
+        return hoaDonHangThangResponseDTOS;
+    }
+
+
 }

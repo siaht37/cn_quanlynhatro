@@ -1,12 +1,12 @@
 package quanlynhatro.doanchuyennganh.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +22,7 @@ public class TaiKhoan {
     private Role role;
 
     private String email;
+    @JsonIgnore
     private String password;
 
     @OneToMany(mappedBy = "taiKhoan")

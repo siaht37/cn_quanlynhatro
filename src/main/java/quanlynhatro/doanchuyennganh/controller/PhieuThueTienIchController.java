@@ -42,4 +42,10 @@ public class PhieuThueTienIchController implements IController<PhieuThueTienIch>
     public List<ChiTietPhieuThueTienIch> update(@RequestBody PhieuThueTienIchRequestDTO phieuThueTienIchRequestDTO) {
         return phieuThueTienIchService.update(phieuThueTienIchRequestDTO.getMaPhieuThue(), phieuThueTienIchRequestDTO.getMaTienIches());
     }
+
+    @GetMapping("/getAllTienIchDaThueByUsername/{username}")
+    public List<ChiTietPhieuThueTienIch> getAllTienIchDaThueByTaiKhoan(@PathVariable("username") String username) {
+
+        return phieuThueTienIchService.getAllTienIchDaThueByTaiKhoan(username);
+    }
 }

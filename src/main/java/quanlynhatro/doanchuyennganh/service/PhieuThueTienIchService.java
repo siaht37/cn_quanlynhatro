@@ -93,4 +93,17 @@ public class PhieuThueTienIchService implements IService<PhieuThueTienIch> {
 
         return chiTietPhieuThueTienIchRepository.saveAll(chiTietPhieuThueTienIches);
     }
+
+    public List<ChiTietPhieuThueTienIch> getAllTienIchDaThueByTaiKhoan(String username) {
+        TaiKhoan taiKhoan = taiKhoanRepository.findByUserName(username).get();
+        List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = new ArrayList<>();
+        List<PhieuThueTienIch> phieuThueTienIches = phieuThueTienIchRepository.findByTaiKhoan(taiKhoan);
+        for (PhieuThueTienIch phieuThueTienIch : phieuThueTienIches) {
+            chiTietPhieuThueTienIches.addAll(chiTietPhieuThueTienIchRepository.findByPhieuThueTienIch(phieuThueTienIch));
+        }
+
+        return chiTietPhieuThueTienIches;
+    }
+
+
 }
