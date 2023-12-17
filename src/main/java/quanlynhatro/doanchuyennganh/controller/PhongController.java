@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Phong")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PhongController implements IController<Phong> {
     @Autowired
     private PhongService phongService;

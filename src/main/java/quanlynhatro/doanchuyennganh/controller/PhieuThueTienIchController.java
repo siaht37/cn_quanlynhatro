@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/PhieuThueTienIch")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PhieuThueTienIchController implements IController<PhieuThueTienIch> {
     @Autowired
     private PhieuThueTienIchService phieuThueTienIchService;
