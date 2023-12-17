@@ -13,6 +13,7 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
+@Builder
 public class HoaDonHangThangResponseDTO {
     private HoaDonHangThang hoaDonHangThang;
     private SoDien soDien;

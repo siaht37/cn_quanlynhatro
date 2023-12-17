@@ -1,10 +1,7 @@
 package quanlynhatro.doanchuyennganh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.entity.HoaDonHangThang;
 import quanlynhatro.doanchuyennganh.service.HoaDonHangThangService;
 
@@ -21,6 +18,11 @@ public class HoaDonHangThangController implements IController<HoaDonHangThang> {
     @GetMapping("/")
     public List<HoaDonHangThang> getAll() {
         return hoaDonHangThangService.getAll();
+    }
+
+    @GetMapping("/HoaDonsTheoUserName/{username}")
+    public List<HoaDonHangThang> getByUserName(@PathVariable String username) {
+        return hoaDonHangThangService.getByTaiKhoan(username);
     }
 
     @Override
