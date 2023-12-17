@@ -31,4 +31,9 @@ public class PhongController implements IController<Phong> {
     public Phong update(Phong phong) {
         return phongService.insert(phong);
     }
+
+    @GetMapping("/SL")
+    public int getNumberOfPhongIsConTrong() {
+        return phongService.getNumberOfPhongIsConTrong();
+    }
 }

@@ -8,7 +8,7 @@ import quanlynhatro.doanchuyennganh.service.HopDongThuePhongService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/HopDongThuePhong")
 @CrossOrigin(origins = "http://localhost:3000")
 public class HopDongThuePhongController implements IController<HopDongThuePhong> {
     @Autowired

@@ -31,4 +31,7 @@ public class PhongService implements IService<Phong> {
     }
 
 
+    public int getNumberOfPhongIsConTrong() {
+        return phongRepository.countPhongByConTrongIsTrue();
+    }
 }
