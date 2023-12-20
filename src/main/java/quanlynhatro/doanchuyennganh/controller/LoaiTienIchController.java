@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/LoaiTienIch")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class LoaiTienIchController implements IController<LoaiTienIch> {
     @Autowired
     private LoaiTienIchService loaiTienIchService;

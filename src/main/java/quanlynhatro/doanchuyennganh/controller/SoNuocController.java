@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/SoNuoc")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class SoNuocController implements IController<SoNuoc> {
     @Autowired
     private SoNuocService soNuocService;

@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.entity.LoaiPhong;
 import quanlynhatro.doanchuyennganh.service.LoaiPhongService;
 
-import java.util.ArrayList;
 import java.util.List;
+
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 @RequestMapping("/LoaiPhong")
-public class LoaiPhongController implements IController<LoaiPhong>{
+public class LoaiPhongController implements IController<LoaiPhong> {
     @Autowired
     private LoaiPhongService loaiPhongService;
 
@@ -21,8 +21,8 @@ public class LoaiPhongController implements IController<LoaiPhong>{
         try {
             List<LoaiPhong> loaiPhongs = loaiPhongService.getAll();
             return loaiPhongs;
-        }catch (Exception e){
-            System.err.println(e.toString());
+        } catch (Exception e) {
+            System.err.println(e);
             return null;
         }
 
