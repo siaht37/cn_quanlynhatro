@@ -25,10 +25,15 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers("/api/auth/**").permitAll();
-                    authorize.anyRequest().authenticated();
+//                    authorize.requestMatchers("/api/TaiKhoan/**").permitAll();
+//                    authorize.requestMatchers("/api/auth/**").permitAll();
+//                    authorize.anyRequest().authenticated();
+                    authorize
+                            .anyRequest().permitAll(); // Cho phép truy cập mọi URL mà không cần xác thực
+
                 });
         return http.build();
     }

@@ -1,9 +1,11 @@
 package quanlynhatro.doanchuyennganh.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.dto.response.HoaDonHangThangResponseDTO;
 import quanlynhatro.doanchuyennganh.entity.HoaDonHangThang;
+import quanlynhatro.doanchuyennganh.security.JwtTokenProvider;
 import quanlynhatro.doanchuyennganh.service.HoaDonHangThangService;
 
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
 public class HoaDonHangThangController implements IController<HoaDonHangThang> {
     @Autowired
     HoaDonHangThangService hoaDonHangThangService;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @Override
     @GetMapping("/")
@@ -26,9 +30,16 @@ public class HoaDonHangThangController implements IController<HoaDonHangThang> {
         return hoaDonHangThangService.getByTaiKhoan(username);
     }
 
-    @GetMapping("/getByUserNameAndStateIsFalse/{username}")
-    public List<HoaDonHangThang> getByUserNameAndStateIsFalse(@PathVariable String username) {
-        return hoaDonHangThangService.getByTaiKhoanAndStateIsFalse(username);
+    @GetMapping("/getByUserNameAndStateIsFalse")
+    public List<HoaDonHangThang> getByUserNameAndStateIsFalse(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token == null) {
+            return null;
+        }
+        String username = jwtTokenProvider.getUsername(request.getHeader("Authorization"));
+        if (username != null)
+            return hoaDonHangThangService.getByTaiKhoanAndStateIsFalse(username);
+        return null;
     }
 
     @Override

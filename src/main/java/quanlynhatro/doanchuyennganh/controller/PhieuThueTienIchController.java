@@ -1,10 +1,12 @@
 package quanlynhatro.doanchuyennganh.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.dto.request.PhieuThueTienIchRequestDTO;
 import quanlynhatro.doanchuyennganh.entity.ChiTietPhieuThueTienIch;
 import quanlynhatro.doanchuyennganh.entity.PhieuThueTienIch;
+import quanlynhatro.doanchuyennganh.security.JwtTokenProvider;
 import quanlynhatro.doanchuyennganh.service.PhieuThueTienIchService;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
 public class PhieuThueTienIchController implements IController<PhieuThueTienIch> {
     @Autowired
     private PhieuThueTienIchService phieuThueTienIchService;
+    @Autowired
+    JwtTokenProvider jwtTokenProvider;
 
     @Override
     @GetMapping("/")
@@ -43,9 +47,15 @@ public class PhieuThueTienIchController implements IController<PhieuThueTienIch>
         return phieuThueTienIchService.update(phieuThueTienIchRequestDTO.getMaPhieuThue(), phieuThueTienIchRequestDTO.getMaTienIches());
     }
 
-    @GetMapping("/getAllTienIchDaThueByUsername/{username}")
-    public List<ChiTietPhieuThueTienIch> getAllTienIchDaThueByTaiKhoan(@PathVariable("username") String username) {
-
-        return phieuThueTienIchService.getAllTienIchDaThueByTaiKhoan(username);
+    @GetMapping("/getAllTienIchDaThueByUsername")
+    public List<ChiTietPhieuThueTienIch> getAllTienIchDaThueByTaiKhoan(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token == null) {
+            return null;
+        }
+        String username = jwtTokenProvider.getUsername(request.getHeader("Authorization"));
+        if (username != null)
+            return phieuThueTienIchService.getAllTienIchDaThueByTaiKhoan(username);
+        return null;
     }
 }

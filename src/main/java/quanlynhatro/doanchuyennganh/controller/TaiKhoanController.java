@@ -2,6 +2,7 @@ package quanlynhatro.doanchuyennganh.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import quanlynhatro.doanchuyennganh.dto.request.TaiKhoanRequestDTO;
 import quanlynhatro.doanchuyennganh.entity.TaiKhoan;
 import quanlynhatro.doanchuyennganh.service.TaiKhoanService;
 
@@ -21,9 +22,14 @@ public class TaiKhoanController implements IController<TaiKhoan> {
     }
 
     @Override
-    @PostMapping("/")
     public TaiKhoan insert(TaiKhoan taiKhoan) {
-        return taiKhoanService.insert(taiKhoan);
+        return null;
+    }
+
+    @PostMapping("/")
+    public TaiKhoan insert(@RequestBody TaiKhoanRequestDTO taiKhoanRequestDTO) {
+
+        return taiKhoanService.insert(taiKhoanRequestDTO);
     }
 
     @Override
