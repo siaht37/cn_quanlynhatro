@@ -114,7 +114,7 @@ public class HoaDonHangThangService implements IService<HoaDonHangThang> {
         HopDongThuePhong hopDongThuePhong = hoaDonHangThang.getHopDongThuePhong();
         Phong phong = hopDongThuePhong.getPhong();
         int month = hoaDonHangThang.getNgayLap().getMonth();
-        int year = hoaDonHangThang.getNgayLap().getYear();
+        int year = hoaDonHangThang.getNgayLap().getYear() % 100 + 2000;
         TaiKhoan taiKhoan = hopDongThuePhong.getTaiKhoan();
 
         //gan so dien cua phong theo thang

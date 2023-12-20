@@ -1,12 +1,10 @@
 package quanlynhatro.doanchuyennganh.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.config.Config;
-import quanlynhatro.doanchuyennganh.dto.request.TransactionStatusDTO;
 import quanlynhatro.doanchuyennganh.entity.HoaDonHangThang;
 import quanlynhatro.doanchuyennganh.repository.IHoaDonHangThangRepository;
 
@@ -18,13 +16,16 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/payment")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class PaymentController {
 
     @Autowired
     IHoaDonHangThangRepository hoaDonHangThangRepository;
 
+    private static int maHoaDon = -1;
+
     @GetMapping("/pay/{mahoadon}")
-    public String getPay(@PathVariable("mahoadon") int maHoaDonHangThang) throws UnsupportedEncodingException {
+    public String getPay(@PathVariable("mahoadon") int maHoaDonHangThang, HttpSession session) throws UnsupportedEncodingException {
         HoaDonHangThang hoaDonHangThang = hoaDonHangThangRepository.findById(maHoaDonHangThang).get();
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
@@ -52,7 +53,6 @@ public class PaymentController {
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", Config.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-        //vnp_Params.put("maHoaDonHangThang", String.valueOf(maHoaDonHangThang));
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -90,44 +90,19 @@ public class PaymentController {
         String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
-
-
+        maHoaDon = maHoaDonHangThang;
         return paymentUrl;
     }
 
 
-    @GetMapping("/state")
-    private ResponseEntity<?> transaction(
-            @RequestParam("vnp_ResponseCode") String vnp_ResponseCode,
-            @RequestParam("maHoaDonHangThang") String maHoaDonHangThang
-    ) {
-        TransactionStatusDTO transactionStatusDTO;
-        if (vnp_ResponseCode.equals("00")) {
-            transactionStatusDTO = TransactionStatusDTO.builder()
-                    .status("OK")
-                    .message("Successful")
-                    .data("")
-                    .build();
-
-
-        } else {
-            transactionStatusDTO = TransactionStatusDTO.builder()
-                    .status("NO")
-                    .message("failed")
-                    .data("")
-                    .build();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(transactionStatusDTO);
-    }
-
-    @PostMapping("/ipn")
-    public void handleVnpIpn(@RequestParam Map<String, String> params, HttpServletResponse response) throws Exception {
+    @GetMapping("/ipn")
+    public void handleVnpIpn(@RequestParam Map<String, String> params, HttpServletResponse response, HttpSession session) throws Exception {
         String vnp_ResponseCode = params.get("vnp_ResponseCode");
-        String maHoaDonHangThang = params.get("maHoaDonHangThang");
+        int maHoaDonHangThang = maHoaDon;
         // Xử lý trạng thái thanh toán dựa trên vnp_ResponseCode
         if ("00".equals(vnp_ResponseCode)) {
             // Trạng thái thanh toán thành công, cập nhật hóa đơn tương ứng
-            HoaDonHangThang hoaDonHangThang = hoaDonHangThangRepository.findById(Integer.parseInt(maHoaDonHangThang)).orElse(null);
+            HoaDonHangThang hoaDonHangThang = hoaDonHangThangRepository.findById(maHoaDonHangThang).get();
             if (hoaDonHangThang != null) {
                 hoaDonHangThang.setTrangThaiThanhToan(true);
                 hoaDonHangThangRepository.save(hoaDonHangThang);

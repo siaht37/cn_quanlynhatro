@@ -2,10 +2,7 @@ package quanlynhatro.doanchuyennganh.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import quanlynhatro.doanchuyennganh.dto.request.LoginDto;
 import quanlynhatro.doanchuyennganh.dto.response.JWTAuthResponse;
 import quanlynhatro.doanchuyennganh.service.AuthService;
@@ -13,6 +10,7 @@ import quanlynhatro.doanchuyennganh.service.AuthService;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class AuthController {
 
     private AuthService authService;
