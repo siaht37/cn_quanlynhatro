@@ -14,4 +14,6 @@ public interface IPhongRepository extends JpaRepository<Phong, Integer> {
 
     @Query("SELECT p from Phong p where p.conTrong = false ")
     List<Phong> findByConTrongIsFalse();
+
+
 }
