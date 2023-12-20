@@ -56,4 +56,9 @@ public class HoaDonHangThangController implements IController<HoaDonHangThang> {
     public HoaDonHangThang update(HoaDonHangThang hoaDonHangThang) {
         return null;
     }
+
+    @GetMapping("/chiTietHoaDon/{maHoaDon}")
+    HoaDonHangThangResponseDTO chiTietHoaDon(@PathVariable("maHoaDon") int maHoaDon) {
+        return hoaDonHangThangService.chiTietHoaDon(maHoaDon);
+    }
 }

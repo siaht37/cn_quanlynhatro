@@ -30,7 +30,7 @@ public class SoDienService implements IService<SoDien> {
     }
 
     public SoDien insert(SoDienNuocRquestDTO soDienDTO) {
-        Optional<Phong> phong = phongRepository.findById(soDienDTO.getMaphong());
+        Optional<Phong> phong = phongRepository.findByMaPhong(soDienDTO.getMaphong());
         SoDien soDien = SoDien.builder()
                 .ngayNhap(new Date())
                 .donGia(3500)

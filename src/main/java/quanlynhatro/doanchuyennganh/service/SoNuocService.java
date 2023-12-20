@@ -16,6 +16,7 @@ import java.util.Optional;
 public class SoNuocService implements IService<SoNuoc> {
     @Autowired
     private ISoNuocRepository soNuocRepository;
+    @Autowired
     private IPhongRepository phongRepository;
 
     @Override
@@ -29,7 +30,7 @@ public class SoNuocService implements IService<SoNuoc> {
     }
 
     public SoNuoc insert(SoDienNuocRquestDTO soNuocDTO) {
-        Optional<Phong> phong = phongRepository.findById(soNuocDTO.getMaphong());
+        Optional<Phong> phong = phongRepository.findByMaPhong(soNuocDTO.getMaphong());
         SoNuoc soNuoc = SoNuoc.builder()
                 .ngayNhap(new Date())
                 .donGia(3500)

@@ -12,4 +12,5 @@ import quanlynhatro.doanchuyennganh.entity.compositekey.SoDienId;
 public interface ISoDienRepository extends JpaRepository<SoDien, SoDienId> {
     @Query("SELECT s FROM SoDien s WHERE s.phong =:phong and MONTH(s.ngayNhap) = :month AND YEAR(s.ngayNhap) = :year")
     SoDien findSoDienByPhongMonthYear(@Param("phong") Phong phong, @Param("month") int month, @Param("year") int year);
+
 }

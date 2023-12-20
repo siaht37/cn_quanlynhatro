@@ -107,5 +107,36 @@ public class HoaDonHangThangService implements IService<HoaDonHangThang> {
         return hoaDonHangThangResponseDTOS;
     }
 
+    public HoaDonHangThangResponseDTO chiTietHoaDon(int maHoaDonHangThang) {
+        //hoadon
+        HoaDonHangThang hoaDonHangThang = hoaDonHangThangRepository.findById(maHoaDonHangThang).get();
+
+        HopDongThuePhong hopDongThuePhong = hoaDonHangThang.getHopDongThuePhong();
+        Phong phong = hopDongThuePhong.getPhong();
+        int month = hoaDonHangThang.getNgayLap().getMonth();
+        int year = hoaDonHangThang.getNgayLap().getYear();
+        TaiKhoan taiKhoan = hopDongThuePhong.getTaiKhoan();
+
+        //gan so dien cua phong theo thang
+        SoDien soDien = soDienRepository.findSoDienByPhongMonthYear(phong, month, year);
+        //gan so nuoc cua phong theo thang
+        SoNuoc soNuoc = soNuocRepository.findSoNuocByPhongMonthYear(phong, month, year);
+
+        //ds tien ich(chitiettienich) taikhoan dang thue
+        List<ChiTietPhieuThueTienIch> chiTietPhieuThueTienIches = new ArrayList<>();
+        List<PhieuThueTienIch> phieuThueTienIches = phieuThueTienIchRepository.findByTaiKhoan(taiKhoan);
+        for (PhieuThueTienIch phieuThueTienIch : phieuThueTienIches) {
+            chiTietPhieuThueTienIches.addAll(chiTietPhieuThueTienIchRepository.findByPhieuThueTienIch(phieuThueTienIch));
+        }
+
+        HoaDonHangThangResponseDTO hoaDonHangThangResponseDTO = HoaDonHangThangResponseDTO.builder()
+                .hoaDonHangThang(hoaDonHangThang)
+                .soDien(soDien)
+                .soNuoc(soNuoc)
+                .chiTietPhieuThueTienIches(chiTietPhieuThueTienIches)
+                .build();
+        return hoaDonHangThangResponseDTO;
+    }
+
 
 }

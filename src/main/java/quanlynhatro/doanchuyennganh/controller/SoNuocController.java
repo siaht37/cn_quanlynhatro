@@ -27,7 +27,7 @@ public class SoNuocController implements IController<SoNuoc> {
     }
 
     @PostMapping("/")
-    public SoNuoc insert(SoDienNuocRquestDTO soNuoc) {
+    public SoNuoc insert(@RequestBody SoDienNuocRquestDTO soNuoc) {
         return soNuocService.insert(soNuoc);
     }
 
