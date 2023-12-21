@@ -34,10 +34,10 @@ public class AuthController {
         Optional<TaiKhoan> taiKhoan = taiKhoanRepository.findByUserName(username);
         int maRole = taiKhoan.get().getRole().getMaRole();
 
-
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
         jwtAuthResponse.setAccessToken(token);
         jwtAuthResponse.setMaRole(maRole);
+        jwtAuthResponse.setUsername(username);
 
         return ResponseEntity.ok(jwtAuthResponse);
     }
