@@ -7,10 +7,7 @@ import quanlynhatro.doanchuyennganh.dto.response.HoaDonHangThangResponseDTO;
 import quanlynhatro.doanchuyennganh.entity.*;
 import quanlynhatro.doanchuyennganh.repository.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class HoaDonHangThangService implements IService<HoaDonHangThang> {
@@ -113,8 +110,17 @@ public class HoaDonHangThangService implements IService<HoaDonHangThang> {
 
         HopDongThuePhong hopDongThuePhong = hoaDonHangThang.getHopDongThuePhong();
         Phong phong = hopDongThuePhong.getPhong();
-        int month = hoaDonHangThang.getNgayLap().getMonth();
-        int year = hoaDonHangThang.getNgayLap().getYear() % 100 + 2000;
+        Date date = hoaDonHangThang.getNgayLap();
+
+        // Get the Calendar instance
+        Calendar cal = Calendar.getInstance();
+
+        // Set the Calendar time to the Date object
+        cal.setTime(date);
+
+        // Get the month integer (0-based)
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
         TaiKhoan taiKhoan = hopDongThuePhong.getTaiKhoan();
 
         //gan so dien cua phong theo thang
