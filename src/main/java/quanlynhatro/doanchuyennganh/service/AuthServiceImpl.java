@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import quanlynhatro.doanchuyennganh.dto.request.LoginDto;
+import quanlynhatro.doanchuyennganh.dto.request.LoginRequestDTO;
 import quanlynhatro.doanchuyennganh.repository.ITaiKhoanRepository;
 import quanlynhatro.doanchuyennganh.security.JwtTokenProvider;
 
@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginDto loginDto) {
+    public String login(LoginRequestDTO loginDto) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getUsernameOrEmail(), loginDto.getPassword()));

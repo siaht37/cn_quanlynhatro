@@ -11,7 +11,7 @@
     <groupId>quanlynhatro</groupId>
     <artifactId>doanchuyennganh</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>doanchuyennganh</name>
     <description>project quan ly nha tro</description>
     <properties>
